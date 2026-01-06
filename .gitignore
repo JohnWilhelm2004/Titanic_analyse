@@ -47,3 +47,20 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+
+# --- LaTeX Spezifisches (laut Checkliste [113]) ---
+# Ignoriere alle LaTeX Hilfsdateien
+*.aux
+*.log
+*.toc
+*.out
+*.synctex.gz
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+
+# Aber behalte die wichtigen Dateien (.tex und .pdf)
+!*.tex
+!*.pdf

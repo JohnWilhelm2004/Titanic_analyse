@@ -49,6 +49,22 @@ titanic <- titanic %>%
   ungroup()
 
 
+# 2 Fehlende NAs durch Southampton ersetzen weil dort die 
+# meisten eingestiegen sind
+titanic <- titanic %>% 
+  mutate(Embarked = replace_na(Embarked, "S"))
+
+
+# Umwandeln von Sex und Embarked in Faktorwerte zum Auswerten
+titanic <- titanic %>%
+  mutate(
+    Sex = as.factor(Sex),
+    Embarked = fct_recode(as.factor(Embarked),
+                          "Southampton" = "S",
+                          "Cherbourg" = "C",
+                          "Queenstown" = "Q")
+  )
+
 
 
 # ---------------------------------------------------------------------------

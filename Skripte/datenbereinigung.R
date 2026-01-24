@@ -62,13 +62,15 @@ titanic <- titanic %>%
     Embarked = fct_recode(as.factor(Embarked),
                           "Southampton" = "S",
                           "Cherbourg" = "C",
-                          "Queenstown" = "Q")
+                          "Queenstown" = "Q"),
+    Pclass   = ordered(Pclass, levels = c(1,2,3)) #Überführen der Variable Pclass in einen ordered-factor.
   )
 
 
 
+
 # ---------------------------------------------------------------------------
-# CODE KABINENINFORS, DATENTYPEN ELAHA
+# CODE KABINENINFORMATIONEN, DATENTYPEN ELAHA
 # ---------------------------------------------------------------------------
 
 

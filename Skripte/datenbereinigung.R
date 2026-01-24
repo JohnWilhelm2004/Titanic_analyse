@@ -89,6 +89,15 @@ titanic <- titanic %>%
 titanic <- titanic %>%
   mutate(CabinNumber = as.numeric(str_extract(Cabin, "[0-9]+")))
 
+# Backbord oder Steuerbord bestimmen
+# ungerade Nummer = Steuerbord, gerade = Backbord
+titanic <- titanic %>%
+  mutate(Side = case_when(
+    is.na(CabinNumber) ~ NA_character_,
+    CabinNumber %% 2 == 0 ~ "Backbord",
+    CabinNumber %% 2 == 1 ~ "Steuerbord"
+  ))
+
 
 
 

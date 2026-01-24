@@ -105,8 +105,12 @@ titanic <- titanic %>%
     Deck = as.factor(Deck)
   )
 
+# ---------------------------------------------------------------------------
+# NICHT MEHR BENÖTIGTE VARIABLEN ENTFERNEN
+# ---------------------------------------------------------------------------
 
-
+titanic <- titanic %>%
+  select(-PassengerID, -Name, -Ticket, -Cabin, -CabinNumber)
 
 
 # ---------------------------------------------------------------------------

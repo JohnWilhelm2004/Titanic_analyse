@@ -59,7 +59,8 @@ titanic <- titanic %>%
 titanic <- titanic %>%
   mutate(
     Sex = as.factor(Sex),
-    Survived = as.factor(Survived),
+    Survived = factor(Survived, levels = c(0, 1),
+                           labels = c("No", "Yes"))),
     Embarked = fct_recode(as.factor(Embarked),
                           "Southampton" = "S",
                           "Cherbourg" = "C",

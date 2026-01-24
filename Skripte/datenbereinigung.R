@@ -112,6 +112,11 @@ titanic <- titanic %>%
 titanic <- titanic %>%
   select(-PassengerID, -Name, -Ticket, -Cabin, -CabinNumber)
 
+# ---------------------------------------------------------------------------
+# DATENSATZ SPEICHERN
+# ---------------------------------------------------------------------------
+
+write_csv(titanic, "../Daten/titanic_clean.csv")
 
 # ---------------------------------------------------------------------------
 # FERTIGE DATEI

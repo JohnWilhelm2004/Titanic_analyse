@@ -98,7 +98,12 @@ titanic <- titanic %>%
     CabinNumber %% 2 == 1 ~ "Steuerbord"
   ))
 
-
+# Side und Deck als Faktor codieren
+titanic <- titanic %>%
+  mutate(
+    Side = as.factor(Side),
+    Deck = as.factor(Deck)
+  )
 
 
 

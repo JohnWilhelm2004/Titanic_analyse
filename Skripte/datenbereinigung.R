@@ -81,6 +81,10 @@ titanic <- titanic %>%
 titanic <- titanic %>%
   mutate(Cabin = na_if(Cabin, ""))
 
+# Deck aus Cabin extrahieren 
+titanic <- titanic %>%
+  mutate(Deck = str_extract(Cabin, "^[A-Za-z]"))
+
 
 
 

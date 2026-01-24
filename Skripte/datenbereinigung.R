@@ -63,7 +63,9 @@ titanic <- titanic %>%
                           "Southampton" = "S",
                           "Cherbourg" = "C",
                           "Queenstown" = "Q"),
-    Pclass   = ordered(Pclass, levels = c(1,2,3)) #Überführen der Variable Pclass in einen ordered-factor.
+    Pclass = factor(Pclass,  #Überführen der Variable Pclass in einen ordered-factor.
+                          levels = c(1, 2, 3),
+                          ordered = TRUE))
   )
 
 

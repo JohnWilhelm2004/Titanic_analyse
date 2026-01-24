@@ -77,7 +77,9 @@ titanic <- titanic %>%
 # CODE KABINENINFORMATIONEN, DATENTYPEN ELAHA
 # ---------------------------------------------------------------------------
 
-
+# Cabin: leere Einträge als NA setzen
+titanic <- titanic %>%
+  mutate(Cabin = na_if(Cabin, ""))
 
 
 

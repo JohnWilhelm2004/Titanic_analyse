@@ -85,6 +85,10 @@ titanic <- titanic %>%
 titanic <- titanic %>%
   mutate(Deck = str_extract(Cabin, "^[A-Za-z]"))
 
+# Kabinennummer extrahieren (Zahlen)
+titanic <- titanic %>%
+  mutate(CabinNumber = as.numeric(str_extract(Cabin, "[0-9]+")))
+
 
 
 

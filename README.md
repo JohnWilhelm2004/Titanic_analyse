@@ -32,26 +32,26 @@ Durch die Umwandlung zu NA können fehlende Kabinen korrekt erkannt, gezählt un
 
 ## Extraktion des Decks aus Cabin
 
-str_extract() extrahiert einen bestimmten Teil eines Strings
+str_extract() extrahiert einen bestimmten Teil eines Strings.
 Der reguläre Ausdruck ^[A-Za-z] bedeutet:
 ^ → Anfang des Strings
 [A-Za-z] → ein einzelner Buchstabe
 
-Somit wird aus "C85" -> "C". Der Buchstabe steht für das Deck des Schiffes
+Somit wird aus "C85" -> "C". Der Buchstabe steht für das Deck des Schiffes.
 
 Das Deck kann Hinweise geben auf die soziale Schicht, die Position auf dem Schiff und die Überlebenswahrscheinlichkeit.
 Die Information ist analytisch deutlich wertvoller als die vollständige Kabinennummer.
 
 ## Extraktion der Kabinennummer
 
-str_extract(Cabin, "[0-9]+") extrahiert alle Ziffern aus dem String
-[0-9]+ bedeutet: eine oder mehrere aufeinanderfolgende Zahlen
-as.numeric() wandelt das Ergebnis in eine Zahl um. Diese numerische Form ist notwendig für mathematische Operationen
+str_extract(Cabin, "[0-9]+") extrahiert alle Ziffern aus dem String.
+[0-9]+ bedeutet: eine oder mehrere aufeinanderfolgende Zahlen.
+as.numeric() wandelt das Ergebnis in eine Zahl um. Diese numerische Form ist notwendig für mathematische Operationen.
 
 ##Bestimmung von Backbord oder Steuerbord
 
-case_when() ist eine vektorbasierte If-Else-Struktur
-%% ist der Modulo-Operator. Dieser prüft, ob eine Zahl gerade oder ungerade ist
+case_when() ist eine vektorbasierte If-Else-Struktur.
+%% ist der Modulo-Operator. Dieser prüft, ob eine Zahl gerade oder ungerade ist.
 
 Logik:
 Gerade Kabinennummer → Backbord
@@ -59,11 +59,24 @@ Ungerade Kabinennummer → Steuerbord
 Fehlende Kabinennummer → NA
 
 Bedeutung für die Analyse
-Diese neue Variable, erzeugt eine räumliche Information und kann mit Überlebensraten oder Decks kombiniert analysiert werden
+Diese neue Variable, erzeugt eine räumliche Information und kann mit Überlebensraten oder Decks kombiniert analysiert werden.
 
-##
+##Entfernen nicht mehr benötigter Variablen
 
+select() wählt Variablen aus.
+Das Minuszeichen (-) entfernt Variablen gezielt aus dem Datensatz.
+Warum entferne ich genau diese Variablen? 
+- PassengerID	ist eine Reine ID und KEIN Analysewert.
+- Name enthält persönliche Informationen und ist nicht modellrelevant.
+Ticket beeinhaltet eine hohe Varianz und ist kaum interpretierbar
+Cabin	wurde bereits in sinnvollere Variablen zerlegt.
 
+Vorteil:
+- Übersichtlicher Datensatz
+- Fokus auf analyse­relevante Variablen
+- Weniger Rauschen in statistischen Modellen
+
+- 
 
 
 

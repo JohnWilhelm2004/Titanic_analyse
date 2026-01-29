@@ -76,8 +76,14 @@ Vorteil:
 - Fokus auf analyse­relevante Variablen
 - Weniger Rauschen in statistischen Modellen
 
-- 
+## Speichern des bereinigten Datensatzes
 
+write_csv() speichert den aktuellen Datensatz als CSV-Datei
+Der neue Datensatz enthält nur noch vorverarbeitete, analysierbare Variablen.
+Bedeutung für das Projekt:
+- Reproduzierbarkeit der Analyse
+- Klare Trennung zwischen Rohdaten und bereinigten Daten
+- Einbindung in das GitHub-Repository für Gruppenarbeit
 
 
 

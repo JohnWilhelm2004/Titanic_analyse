@@ -42,6 +42,27 @@ Somit wird aus "C85" -> "C". Der Buchstabe steht für das Deck des Schiffes
 Das Deck kann Hinweise geben auf die soziale Schicht, die Position auf dem Schiff und die Überlebenswahrscheinlichkeit.
 Die Information ist analytisch deutlich wertvoller als die vollständige Kabinennummer.
 
+## Extraktion der Kabinennummer
+
+str_extract(Cabin, "[0-9]+") extrahiert alle Ziffern aus dem String
+[0-9]+ bedeutet: eine oder mehrere aufeinanderfolgende Zahlen
+as.numeric() wandelt das Ergebnis in eine Zahl um. Diese numerische Form ist notwendig für mathematische Operationen
+
+##Bestimmung von Backbord oder Steuerbord
+
+case_when() ist eine vektorbasierte If-Else-Struktur
+%% ist der Modulo-Operator. Dieser prüft, ob eine Zahl gerade oder ungerade ist
+
+Logik:
+Gerade Kabinennummer → Backbord
+Ungerade Kabinennummer → Steuerbord
+Fehlende Kabinennummer → NA
+
+Bedeutung für die Analyse
+Diese neue Variable, erzeugt eine räumliche Information und kann mit Überlebensraten oder Decks kombiniert analysiert werden
+
+##
+
 
 
 

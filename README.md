@@ -61,6 +61,16 @@ Fehlende Kabinennummer → NA
 Bedeutung für die Analyse
 Diese neue Variable, erzeugt eine räumliche Information und kann mit Überlebensraten oder Decks kombiniert analysiert werden.
 
+## Codierung der Variablen Side und Deck als Faktoren
+
+Mit as.factor() werden die Variablen Side (Backbord / Steuerbord) und Deck (Deckbuchstabe der Kabine) in kategoriale Variablen umgewandelt.
+Beide Variablen besitzen keine numerische Bedeutung und keine natürliche Rangordnung. Daher ist eine Faktorcoding statistisch korrekt und erforderlich.
+Bedeutung für den Datensatz:
+- Side beschreibt die Lage der Kabine auf dem Schiff.
+- Deck beschreibt das Deck, auf dem sich die Kabine befindet.
+
+Durch die Faktorcodierung können diese Variablen in deskriptiven Auswertungen, Kreuztabellen, Regressions- und Klassifikationsmodellen korrekt berücksichtigt werden.
+
 ##Entfernen nicht mehr benötigter Variablen
 
 select() wählt Variablen aus.

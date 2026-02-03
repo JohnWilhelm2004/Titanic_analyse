@@ -2,7 +2,7 @@
 # Pakete usw.
 
 # Läd Hilfsfunktionen
-source("Funktionen-R-Skript-2.R")
+source("Funktionen-R-Skript 2.R")
 
 
 
@@ -25,7 +25,6 @@ source("Funktionen-R-Skript-2.R")
 #######################################
 
 # Lade das Helfer-Skript, damit die Funktion 'detect_metric_columns' verfügbar ist
-source("Funktionen-R-Skript-2.R")
 berechne_metrische_statistiken <- function(titanic.data) {
   
   # 1. Hilfsfunktion aufrufen

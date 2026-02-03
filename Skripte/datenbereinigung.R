@@ -56,64 +56,64 @@ titanic <- titanic %>%
   mutate(
     Sex = as.factor(Sex),
     Survived = factor(Survived, levels = c(0, 1),
-                      labels = c("No", "Yes")),
-    Embarked = fct_recode(as.factor(Embarked),
-                          "Southampton" = "S",
-                          "Cherbourg" = "C",
-                          "Queenstown" = "Q"),
-    Pclass = factor(Pclass,  #Überführen der Variable Pclass in einen ordered-factor.
-                    levels = c(1, 2, 3),
-                    ordered = TRUE))
-
-
-
-
-
-# ---------------------------------------------------------------------------
-# CODE KABINENINFORMATIONEN, DATENTYPEN ELAHA
-# ---------------------------------------------------------------------------
-
-# Cabin: leere Einträge als NA setzen
-titanic <- titanic %>%
-  mutate(Cabin = na_if(Cabin, ""))
-
-# Deck aus Cabin extrahieren 
-titanic <- titanic %>%
-  mutate(Deck = str_extract(Cabin, "^[A-Za-z]"))
-
-# Kabinennummer extrahieren (Zahlen)
-titanic <- titanic %>%
-  mutate(CabinNumber = as.numeric(str_extract(Cabin, "[0-9]+")))
-
-# Backbord oder Steuerbord bestimmen
-# ungerade Nummer = Steuerbord, gerade = Backbord
-titanic <- titanic %>%
-  mutate(Side = case_when(
-    is.na(CabinNumber) ~ NA_character_,
-    CabinNumber %% 2 == 0 ~ "Backbord",
-    CabinNumber %% 2 == 1 ~ "Steuerbord"
-  ))
-
-# Side und Deck als Faktor codieren
-titanic <- titanic %>%
-  mutate(
-    Side = as.factor(Side),
-    Deck = as.factor(Deck)
-  )
-
-# ---------------------------------------------------------------------------
-# NICHT MEHR BENÖTIGTE VARIABLEN ENTFERNEN
-# ---------------------------------------------------------------------------
-
-titanic <- titanic %>%
-  select(-PassengerId, -Name, -Ticket, -Cabin, -CabinNumber)
-
-# ---------------------------------------------------------------------------
-# DATENSATZ SPEICHERN
-# ---------------------------------------------------------------------------
-
-write_csv(titanic, "titanic_clean.csv")
-
-# ---------------------------------------------------------------------------
-# FERTIGE DATEI
-# ---------------------------------------------------------------------------
+                      
+                      Embarked = fct_recode(as.factor(Embarked),
+                                            "Southampton" = "S",
+                                            "Cherbourg" = "C",
+                                            "Queenstown" = "Q"),
+                      Pclass = factor(Pclass,  #Überführen der Variable Pclass in einen ordered-factor.
+                                      levels = c(1, 2, 3),
+                                      ordered = TRUE))
+    
+    
+    
+    
+    
+    # ---------------------------------------------------------------------------
+    # CODE KABINENINFORMATIONEN, DATENTYPEN ELAHA
+    # ---------------------------------------------------------------------------
+    
+    # Cabin: leere Einträge als NA setzen
+    titanic <- titanic %>%
+      mutate(Cabin = na_if(Cabin, ""))
+    
+    # Deck aus Cabin extrahieren 
+    titanic <- titanic %>%
+      mutate(Deck = str_extract(Cabin, "^[A-Za-z]"))
+    
+    # Kabinennummer extrahieren (Zahlen)
+    titanic <- titanic %>%
+      mutate(CabinNumber = as.numeric(str_extract(Cabin, "[0-9]+")))
+    
+    # Backbord oder Steuerbord bestimmen
+    # ungerade Nummer = Steuerbord, gerade = Backbord
+    titanic <- titanic %>%
+      mutate(Side = case_when(
+        is.na(CabinNumber) ~ NA_character_,
+        CabinNumber %% 2 == 0 ~ "Backbord",
+        CabinNumber %% 2 == 1 ~ "Steuerbord"
+      ))
+    
+    # Side und Deck als Faktor codieren
+    titanic <- titanic %>%
+      mutate(
+        Side = as.factor(Side),
+        Deck = as.factor(Deck)
+      )
+    
+    # ---------------------------------------------------------------------------
+    # NICHT MEHR BENÖTIGTE VARIABLEN ENTFERNEN
+    # ---------------------------------------------------------------------------
+    
+    titanic <- titanic %>%
+      select(-PassengerId, -Name, -Ticket, -Cabin, -CabinNumber)
+    
+    # ---------------------------------------------------------------------------
+    # DATENSATZ SPEICHERN
+    # ---------------------------------------------------------------------------
+    
+    write_csv(titanic, "titanic_clean.csv")
+    
+    # ---------------------------------------------------------------------------
+    # FERTIGE DATEI
+    # ---------------------------------------------------------------------------

@@ -366,7 +366,7 @@ v.visualiation <- function(dataset = titanic.data, var1, var2, var3, var4 = NULL
   for(i in 1:var.amount){
     #Wir nutzen Rbind um die Sachen unserem Data Frame hinzuzufügen und rufen dann die Hilfsfunktion
     #aus welche unsere Häufigkeiten zu einem Data Frame zusammenfügt 
-    final.data <- rbind(final.data, data.transform(var.vec[i]))
+    final.data <- rbind(final.data, data.transform(var.vec[i], dataset))
   }
   
   #Jetzt erstellen wir mit ggplot den Finalen schritt

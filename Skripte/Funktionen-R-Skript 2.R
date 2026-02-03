@@ -32,7 +32,7 @@ detect_metric_columns <- function(titanic.data) {
 
 #Wir erstellen eine Hilfsfunktion für die Datentransformation die für
 #jede Variable durchgeführt wird 
-data.transform <- function(var) {
+data.transform <- function(var, dataset) {
   
   #Wir setzen unsere Variable auf die Aktuelle 
   curr.var <- var 

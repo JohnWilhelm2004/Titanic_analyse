@@ -77,3 +77,4 @@ v.visualiation <- function(dataset = titanic.data, var1, var2, var3, var4 = NULL
          x = "Merkmale",
          y = "Absolute Häufigkeit")
 }
+

@@ -27,7 +27,7 @@ get_dichotomous_vals = function(data, var_name) {
     new_vec <- (as.numeric(as.factor(data[[var_name]]))) - 1
     message(paste("Info: Spalte", var_name, "wurde für die Korrelation in Zahlen(0/1) umgewandelt."))
   } else {
-    new_vec = data[[var_name]]
+    new_vec <- data[[var_name]]
   }
   return(new_vec)
 }

@@ -5,9 +5,6 @@ titanic.data <- read.csv("titanic_clean.csv")
 library(tidyverse)
 
 #v) 
-
-#Plot 1 - Wo waren mehr Personen? Steuerboard oder Backboard
-
 v.visualiation <- function(dataset = titanic.data, var1, var2, var3, var4 = NULL){
   #Wir speichern unsere Variablen in einem Vektor 
   var.vec <- c(var1, var2, var3, var4)
@@ -27,14 +24,30 @@ v.visualiation <- function(dataset = titanic.data, var1, var2, var3, var4 = NULL
     
     #Wir transformieren unsere Daten und nehmen unsere Aktuelle Spalte
     resulted.data <- dataset %>%
-      select(curr.var) 
+      
+      #Wir wählen unsere Aktuelle Spalte
+      select(curr.var) %>%
+      
+      #Wir entfernen alle Fehlenden Werte
+      drop_na() %>%
+      
+      #Wir zählen die Absoluten Häufigkeiten
+      count(.data[[curr.var]]) %>%
+      
+      #Wir bennen unsere Variablen um 
+      rename(var.string = 1, abs.prob = n) %>%
+      
+      #Wir fügen noch eine Spalte hinzu damit facet_wrap später weiß zu welchem Barplot das gehört
+      mutate(var = curr.var)
     
+    #Wir geben unsere Formatierte Tabelle an rbind zurück
+    return(resulted.data)
   }
   #Wir Indizieren über die ganzen Kategoriellen Merkmale und transformieren sie 1 nach dem anderen
   for(i in 1:var.amount){
     #Wir nutzen Rbind um die Sachen unserem Data Frame hinzuzufügen und rufen dann die Hilfsfunktion
     #aus welche unsere Häufigkeiten zu einem Data Frame zusammenfügt 
-    rbind(final.data, data.transform(var.vec[i]))
+    final.data <- rbind(final.data, data.transform(var.vec[i]))
   }
   
   #Jetzt erstellen wir mit ggplot den Finalen schritt
@@ -44,5 +57,5 @@ v.visualiation <- function(dataset = titanic.data, var1, var2, var3, var4 = NULL
     
     facet_wrap(~var, ncol = 4) +
     
-    scale_color_viridis_d(option = "mako", begin = 0.3, end = 0.8)
+    scale_fill_viridis_d(option = "mako", begin = 0.3, end = 0.8)
 }

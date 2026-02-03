@@ -26,16 +26,16 @@ v.visualiation <- function(dataset = titanic.data, var1, var2, var3, var4 = NULL
     resulted.data <- dataset %>%
       
       #Wir wählen unsere Aktuelle Spalte
-      select(curr.var) %>%
+      select(var.string = .data[[curr.var]]) %>%
       
       #Wir entfernen alle Fehlenden Werte
       drop_na() %>%
       
       #Wir zählen die Absoluten Häufigkeiten
-      count(.data[[curr.var]]) %>%
+      count(var.string) %>%
       
       #Wir bennen unsere Variablen um 
-      rename(var.string = 1, abs.prob = n) %>%
+      rename(abs.prob = n) %>%
       
       #Wir fügen noch eine Spalte hinzu damit facet_wrap später weiß zu welchem Barplot das gehört
       mutate(var = curr.var)
@@ -53,9 +53,23 @@ v.visualiation <- function(dataset = titanic.data, var1, var2, var3, var4 = NULL
   #Jetzt erstellen wir mit ggplot den Finalen schritt
   ggplot(final.data, aes(x = var.string, y = abs.prob, fill = var)) +
     
-    geom_bar(base_size = 12) +
+    geom_bar(stat = "identity") +
     
-    facet_wrap(~var, ncol = 4) +
+    facet_wrap(~var, scales = "free_x") +
     
-    scale_fill_viridis_d(option = "mako", begin = 0.3, end = 0.8)
+    scale_fill_viridis_d(option = "mako", begin = 0.3, end = 0.8) +
+    
+    theme_minimal() +
+    
+    theme(
+      legend.position = "right",
+      strip.text = element_blank()
+    ) +
+    labs(title = "Absolute Häufigkeiten der Kategorialen Merkmale",
+         x = "Merkmale",
+         y = "Absolute Häufigkeit")
 }
+
+# Testaufruf (Beispiel):
+v.visualiation(titanic.data, "Sex", "Pclass", "Embarked")
+

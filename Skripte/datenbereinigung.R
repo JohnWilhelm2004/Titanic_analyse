@@ -56,7 +56,11 @@ titanic <- titanic %>%
   mutate(
     Sex = as.factor(Sex),
     Survived = factor(Survived, levels = c(0, 1),
+<<<<<<< Updated upstream
                       labels = c("No", "Yes")),
+=======
+    labels = c("No", "Yes")),
+>>>>>>> Stashed changes
     Embarked = fct_recode(as.factor(Embarked),
                           "Southampton" = "S",
                           "Cherbourg" = "C",
@@ -116,4 +120,8 @@ write_csv(titanic, "titanic_clean.csv")
 
 # ---------------------------------------------------------------------------
 # FERTIGE DATEI
+<<<<<<< Updated upstream
 # ---------------------------------------------------------------------------
+=======
+# ---------------------------------------------------------------------------
+>>>>>>> Stashed changes

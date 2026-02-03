@@ -1,11 +1,11 @@
 ######################################################
 # Hilfsfunktionen für Funktionen-R-Skript 1
-
+#Setup 
+library(tidyverse)
+titanic.data <- read.csv("titanic_clean.csv")
 
 #################################
 # Hilfsfunktion für i
-
-titanic.data <- read.csv("titanic_clean.csv")
 
 # Name metrischer Spalten
 detect_metric_columns <- function(titanic.data) {

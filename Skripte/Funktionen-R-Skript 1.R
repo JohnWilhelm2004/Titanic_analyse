@@ -1,7 +1,8 @@
 #####################################
 # Pakete usw.
 
-
+# Läd Hilfsfunktionen
+source("Funktionen-R-Skript-2.R")
 
 
 

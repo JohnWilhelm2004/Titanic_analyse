@@ -53,23 +53,27 @@ v.visualiation <- function(dataset = titanic.data, var1, var2, var3, var4 = NULL
   #Jetzt erstellen wir mit ggplot den Finalen schritt
   ggplot(final.data, aes(x = var.string, y = abs.prob, fill = var)) +
     
+    #Wir erstellen unseren Barplot
+    #(stat = identity sorgt dafür das die Daten nicht neugezählt werden)
     geom_bar(stat = "identity") +
     
+    #Wir erstellen für jedes der gewählten Merkmale einen Eigenen Barplot 
     facet_wrap(~var, scales = "free_x") +
     
+    #Wir nehmen unsere Farbpalette damit das ganze gut aussieht 
     scale_fill_viridis_d(option = "mako", begin = 0.3, end = 0.8) +
     
-    theme_minimal() +
+    #Wir machen unsere Theme auswahl
+    theme_minimal(base_size = 12) +
     
+    #Wir platzieren Beschriftungen rechts und entfernen doppelte Überschriften
     theme(
       legend.position = "right",
       strip.text = element_blank()
     ) +
+    
+    #Wir fügen allgemeine Achsenbeschriftung hinzu
     labs(title = "Absolute Häufigkeiten der Kategorialen Merkmale",
          x = "Merkmale",
          y = "Absolute Häufigkeit")
 }
-
-# Testaufruf (Beispiel):
-v.visualiation(titanic.data, "Sex", "Pclass", "Embarked")
-

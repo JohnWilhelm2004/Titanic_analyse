@@ -2,14 +2,10 @@
 # Aufgabe 1
 
 # Bearbeitet von John und Elaha
-
-
-
-
 library(tidyverse)
 
 # Daten einlesen
-titanic <- read_csv("../Daten/titanic.csv")
+titanic <- read_csv("titanic.csv")
 
 
 
@@ -26,19 +22,19 @@ titanic <- titanic %>%
 # Gruppiert gleichbedeutene Titel zusammen
 titanic <- titanic %>%
   mutate(Title = case_when(
-         # Gruppe Miss (unverheiratete Frauen)
-         Title %in% c("Mlle.", "Ms.") ~ "Miss.",
-         
-         # Gruppe Mrs (verheiratete Frauen)
-         Title == "Mme." ~ "Mrs.",
-         
-         # Gruppe Besondere Titel
-         Title %in% c("Don.", "Rev.", "Dr.", "Major.", "Lady.", "Sir.",
-                      "Col.", "Capt.", "Countess.", "Jonkheer") ~ "Rare.",
-         
-         # Rest bleibt gleich
-         TRUE ~ Title
-         ))
+    # Gruppe Miss (unverheiratete Frauen)
+    Title %in% c("Mlle.", "Ms.") ~ "Miss.",
+    
+    # Gruppe Mrs (verheiratete Frauen)
+    Title == "Mme." ~ "Mrs.",
+    
+    # Gruppe Besondere Titel
+    Title %in% c("Don.", "Rev.", "Dr.", "Major.", "Lady.", "Sir.",
+                 "Col.", "Capt.", "Countess.", "Jonkheer") ~ "Rare.",
+    
+    # Rest bleibt gleich
+    TRUE ~ Title
+  ))
 
 # Übrige Titel: Mr. Mrs. Miss. Master. Rare
 
@@ -60,15 +56,15 @@ titanic <- titanic %>%
   mutate(
     Sex = as.factor(Sex),
     Survived = factor(Survived, levels = c(0, 1),
-                           labels = c("No", "Yes"))),
+                      labels = c("No", "Yes")),
     Embarked = fct_recode(as.factor(Embarked),
                           "Southampton" = "S",
                           "Cherbourg" = "C",
                           "Queenstown" = "Q"),
     Pclass = factor(Pclass,  #Überführen der Variable Pclass in einen ordered-factor.
-                          levels = c(1, 2, 3),
-                          ordered = TRUE))
-  )
+                    levels = c(1, 2, 3),
+                    ordered = TRUE))
+
 
 
 
@@ -110,13 +106,13 @@ titanic <- titanic %>%
 # ---------------------------------------------------------------------------
 
 titanic <- titanic %>%
-  select(-PassengerID, -Name, -Ticket, -Cabin, -CabinNumber)
+  select(-PassengerId, -Name, -Ticket, -Cabin, -CabinNumber)
 
 # ---------------------------------------------------------------------------
 # DATENSATZ SPEICHERN
 # ---------------------------------------------------------------------------
 
-write_csv(titanic, "../Daten/titanic_clean.csv")
+write_csv(titanic, "titanic_clean.csv")
 
 # ---------------------------------------------------------------------------
 # FERTIGE DATEI

@@ -138,8 +138,11 @@ analyze_categorical_relation <- function(data, var1, var2) {
   chi_test <- chisq.test(tab)
   v_score <- calc_cramers_v(tab)
   
-  # Effektstärke
-  v_score <- calc_cramers_v(tab)
+  #Wir bauen in die Rückgabe liste einen Data Frame ein für Hypothesen Tests
+  
+  plot_df <- as.data.frame(tab_prop)
+  
+  colnames(plot_df) <- c("Gruppe", "Status", "Prozent")
   
   # Rückgabe der Werte als Liste
   results_list <- list(

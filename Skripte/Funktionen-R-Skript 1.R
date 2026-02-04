@@ -352,6 +352,50 @@ print(metr_daten)
 
 ######################################
 
+v.visualiation <- function(dataset = titanic.data, var1, var2, var3, var4 = NULL){
+  #Wir speichern unsere Variablen in einem Vektor 
+  var.vec <- c(var1, var2, var3, var4)
+  
+  #Wir speichern die länge für die Indizierung 
+  var.amount <- length(var.vec)
+  
+  #Wir erstellen einen Data Frame an dem wir unsere Daten später anbinden können
+  final.data <- data.frame()
+  
+  #Wir Indizieren über die ganzen Kategoriellen Merkmale und transformieren sie 1 nach dem anderen
+  for(i in 1:var.amount){
+    #Wir nutzen Rbind um die Sachen unserem Data Frame hinzuzufügen und rufen dann die Hilfsfunktion
+    #aus welche unsere Häufigkeiten zu einem Data Frame zusammenfügt 
+    final.data <- rbind(final.data, data.transform(var.vec[i], dataset))
+  }
+  
+  #Jetzt erstellen wir mit ggplot den Finalen schritt
+  ggplot(final.data, aes(x = var.string, y = abs.prob, fill = var)) +
+    
+    #Wir erstellen unseren Barplot
+    #(stat = identity sorgt dafür das die Daten nicht neugezählt werden)
+    geom_bar(stat = "identity") +
+    
+    #Wir erstellen für jedes der gewählten Merkmale einen Eigenen Barplot 
+    facet_wrap(~var, scales = "free_x") +
+    
+    #Wir nehmen unsere Farbpalette damit das ganze gut aussieht 
+    scale_fill_viridis_d(option = "mako", begin = 0.3, end = 0.8) +
+    
+    #Wir machen unsere Theme auswahl
+    theme_minimal(base_size = 12) +
+    
+    #Wir platzieren Beschriftungen rechts und entfernen doppelte Überschriften
+    theme(
+      legend.position = "right",
+      strip.text = element_blank()
+    ) +
+    
+    #Wir fügen allgemeine Achsenbeschriftung hinzu
+    labs(title = "Absolute Häufigkeiten der Kategorialen Merkmale",
+         x = "Merkmale",
+         y = "Absolute Häufigkeit")
+}
 
 
 

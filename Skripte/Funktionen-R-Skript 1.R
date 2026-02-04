@@ -193,9 +193,41 @@ analyze_categorical_relation <- function(data, var1, var2) {
 #print(test2)
 
 
+######################################
 
+# Funktion 4
 
+######################################
 
+cor_metr_dicho <- function(data, metr_var_name, dicho_var_name) {
+  # helper functions:
+  check_if_col_exists(data, metr_var_name)
+  check_if_col_exists(data, dicho_var_name)
+  
+  check_if_numeric(data, metr_var_name)
+  check_if_dichotomous(data, dicho_var_name)
+  
+  # Daten extrahieren:
+  metr <- data[[metr_var_name]]
+  dicho <- get_dichotomous_vals(data, dicho_var_name) # anstelle von data[[dicho_var_name]]
+  
+  results <- list(
+    twosided = cor.test(metr, dicho),
+    onsided_greater = cor.test(metr, dicho, alternative = "greater"),
+    onsided_less = cor.test(metr, dicho, alternative = "less")
+  )
+  
+  return(results)
+  
+}
+
+#Test
+
+titanic_data <- read.csv("titanic_clean.csv")
+
+cor_metr_dicho(titanic_data, "Age", "Survived")
+
+cor_metr_dicho(titanic_data, "Age", "Sex")
 
 
 

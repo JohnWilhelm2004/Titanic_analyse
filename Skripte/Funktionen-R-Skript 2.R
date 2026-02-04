@@ -72,22 +72,28 @@ calc_cramers_v <- function(contingency_table) {
 #Hilfsfunktion für iv 
 ###################################
 
+check_if_col_exists <- function(data, var_name) {
+  if(!(var_name %in% names(data))) stop("Eine der angegebenen Spalten existiert nicht im Datensatz.")
+}
 
+check_if_numeric <- function(data, var_name) {
+  if(!is.numeric(data[[var_name]])) stop(paste(var_name, "ist nicht numerisch."))
+}
 
+check_if_dichotomous <- function(data, var_name) {
+  if(length(unique(na.omit(data[[var_name]]))) > 2) stop(paste(var_name, "ist nicht dichotom"))
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Falls der Vektor der dichotmen Variable nicht numerisch ist, wird er umgewandelt
+get_dichotomous_vals = function(data, var_name) {
+  if(!is.numeric(data[[var_name]])) {
+    new_vec <- (as.numeric(as.factor(data[[var_name]]))) - 1
+    message(paste("Info: Spalte", var_name, "wurde für die Korrelation in Zahlen(0/1) umgewandelt."))
+  } else {
+    new_vec <- data[[var_name]]
+  }
+  return(new_vec)
+}
 
 ###################################
 #Hilfsfunktion für v) 

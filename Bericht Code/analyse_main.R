@@ -141,8 +141,21 @@ print(plot.class)
 
 #Plot 3 - Zusammenhang zwischen Ticketpreisen und Überlebenschance
 
+plot.fare <- ggplot(titanic.data, aes(x = as.factor(Survived), y = Fare, fill = as.factor(Survived))) +
+  
+  geom_boxplot(outlier.shape = 2) + #Ausreißer werden damit als Kreise dargestellt 
+  
+  scale_y_log10() + #Logarithmische Skala wegen der extremen Differenzen der  Preise  
+  
+  scale_fill_viridis_d(option = "mako", begin = 0.4, end = 0.8) +
+  
+  labs(title = "Verteilung der Ticketpreise nach Überleben",
+       x = "Status",
+       y = "Ticketpreis (Logarithmisch)") +
+  
+  theme_minimal()
 
 
-
+ print(plot.fare)
 
 

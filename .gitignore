@@ -64,3 +64,6 @@ rsconnect/
 # Aber behalte die wichtigen Dateien (.tex und .pdf)
 !*.tex
 !*.pdf
+
+.DS_Store
+**/.DS_Store

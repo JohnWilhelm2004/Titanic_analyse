@@ -86,4 +86,45 @@ print(dicho.data.age)
 #Wir verwenden Funktion 5 um einen Übersichtsplot über die Ereignesse zu Zeigen, 
 #Wie genau waren die Personengruppen die wir untersuchten verteilt und was genau haben sie gemacht 
 
-facet.plot.data <- v.visualisation(titanic.data, "Survived", "Sex", "Pclass", "Side")
+facet.plot.data <- v.visualiasation(titanic.data, "Survived", "Sex", "Pclass")
+
+print(facet.plot.data)
+
+#Teil 2 - Erstellung visueller Plots für den Bericht
+#Wir wollen unsere Aussagen jetzt gut darstellbar machen für diese Abgabe
+
+#1.Plot untersuchung des Einflusses von Geschlecht auf die Überlebenschancen
+
+plot.sex <-  ggplot(Cor.data.sex$plot.data, aes(x = Gruppe, y = Prozent, fill = Status)) +
+  
+  #Wir erstellen unseren Barplot durch fill wird er immer 100% sein 
+  geom_bar(stat = "identity", position = "fill") +
+  
+  #Wir passen die y-Achse an um Prozente darzustellen
+  scale_y_continuous(labels = scales::percent) +
+  
+  #Wir nehmen unsere Farbpallete
+  scale_fill_viridis_d(option = "mako", begin = 0.3, end = 0.8, name = "Status") +
+  
+  #Fügen noch Achsenbeschriftungen hinzu
+  labs(title = "Überlebenschance nach Geschlecht",
+       x = "Geschlecht",
+       y = "Anteil") +
+  
+  #Und wählen unser Theme
+  theme_minimal(base_size = 12)
+
+
+print(plot.sex)
+
+
+
+
+
+
+
+
+
+
+
+

@@ -67,8 +67,8 @@ berechne_metrische_statistiken <- function(titanic.data) {
   return(ergebnisse)
 }
 # Testen
-#metr_daten <- berechne_metrische_statistiken(titanic.data)
-#print(metr_daten)
+metr_daten <- berechne_metrische_statistiken(titanic.data)
+print(metr_daten)
 
 
 
@@ -136,8 +136,8 @@ berechne_kategoriale_statistiken <- function(titanic.data) {
 }
 
 # Testen
-#kateg_daten <- berechne_kategoriale_statistiken(titanic.data)
-#print(kateg_daten)
+kateg_daten <- berechne_kategoriale_statistiken(titanic.data)
+print(kateg_daten)
 
 
 
@@ -151,52 +151,46 @@ berechne_kategoriale_statistiken <- function(titanic.data) {
 ######################################
 
 
-
 analyze_categorical_relation <- function(data, var1, var2) {
-  # Erstellt eine Kreuztabelle
+  
+  # Datenvorbereitung & Berechnungen
+  # Kreuztabelle erstellen
   tab <- table(data[[var1]], data[[var2]])
   
-  # Prozentuale Verteilung (relativ zu den Zeilen)
+  # Prozentuale Verteilung
   tab_prop <- prop.table(tab, margin = 1) * 100
   
-  # Chi-Quadrat Test durchführen
+  # Chi-Quadrat Test
   chi_test <- chisq.test(tab)
   
-  # Effektstärke über die Helferfunktion aus Skript 2 berechnen
+  # Effektstärke
   v_score <- calc_cramers_v(tab)
   
-  # Schöne Ausgabe
-  cat("--- Bivariate Analyse ---\n")
-  cat("Variablen:", var1, "und", var2, "\n\n")
-  
-  cat("Häufigkeitstabelle:\n")
-  print(tab)
-  
-  cat("\nRelative Häufigkeiten (in %, Zeilenweise):\n")
-  print(round(tab_prop, 2))
-  
-  cat("\nStatistische Kennzahlen:\n")
-  cat("- Chi-Quadrat-Wert:", round(chi_test$statistic, 3), "\n")
-  cat("- p-Wert:", format.pval(chi_test$p.value, eps = 0.001), "\n")
-  cat("- Cramérs V (Effektstärke):", round(v_score, 3), "\n")
-  
-  # Interpretation der Effektstärke
+  # Interpretation
   interpretation <- case_when(
     v_score < 0.1 ~ "vernachlässigbar",
     v_score < 0.3 ~ "schwach",
     v_score < 0.5 ~ "mittel",
     TRUE ~ "stark"
   )
-  cat("- Interpretation: Ein", interpretation, "Zusammenhang.\n")
+  
+  # Rückgabe der Werte als Liste
+  results_list <- list(
+    tabelle = tab,
+    tabelle_prozent = tab_prop,
+    chi_sq_test = chi_test,
+    cramers_v = v_score,
+    interpretation = interpretation
+  )
+  
+  # 'invisible' sorgt dafür, dass die Liste nicht nochmal automatisch 
+  # in die Konsole gedruckt wird, da wir oben schon alles schön ausgegeben haben.
+  return(invisible(results_list))
 }
 
-test <- analyze_categorical_relation(titanic.data)
-print(test)
-
-
-
-
-
+#Test
+#test2 <- analyze_categorical_relation(titanic.data, "Sex","Survived")
+#print(test2)
 
 
 

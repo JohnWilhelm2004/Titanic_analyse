@@ -7,18 +7,6 @@ source("Funktionen-R-Skript 2.R")
 # bibliotheken
 library(tidyverse)
 
-
-
-
-
-
-
-
-
-
-
-
-
 #######################################
 
 # Funktion i
@@ -71,10 +59,6 @@ metr_daten <- berechne_metrische_statistiken(titanic.data)
 print(metr_daten)
 
 
-
-
-
-
 ######################################
 
 # Funktion 2
@@ -96,7 +80,6 @@ berechne_kategoriale_statistiken <- function(titanic.data) {
     stringsAsFactors = FALSE
   )
   
-  print("--- Detaillierte Häufigkeiten ---")
   
   for (col in relevante_spalten) {
     werte <- titanic.data[[col]]
@@ -108,10 +91,7 @@ berechne_kategoriale_statistiken <- function(titanic.data) {
     # Relative Häufigkeiten in Prozent
     tabelle_relativ <- prop.table(tabelle_absolut) * 100
     
-    # Ausgabe der Werte
-    cat("\nVariable:", col, "\n")
-    print(rbind(Absolut = tabelle_absolut, Prozent = round(tabelle_relativ, 2)))
-    
+   
     # 4. Modalwert bestimmen
     # which.max gibt die Position des Maximums, names() gibt den Namen dazu
     modal_name <- names(which.max(tabelle_absolut))
@@ -129,8 +109,6 @@ berechne_kategoriale_statistiken <- function(titanic.data) {
     ergebnisse <- rbind(ergebnisse, neue_zeile)
   }
   
-  print("---------------------------------")
-  
   # Modalwerte Ausgeben
   return(ergebnisse)
 }
@@ -138,10 +116,6 @@ berechne_kategoriale_statistiken <- function(titanic.data) {
 # Testen
 kateg_daten <- berechne_kategoriale_statistiken(titanic.data)
 print(kateg_daten)
-
-
-
-
 
 
 ######################################
@@ -166,32 +140,15 @@ analyze_categorical_relation <- function(data, var1, var2) {
   # Effektstärke
   v_score <- calc_cramers_v(tab)
   
-  # Interpretation
-  interpretation <- case_when(
-    v_score < 0.1 ~ "vernachlässigbar",
-    v_score < 0.3 ~ "schwach",
-    v_score < 0.5 ~ "mittel",
-    TRUE ~ "stark"
-  )
-  
   # Rückgabe der Werte als Liste
   results_list <- list(
     tabelle = tab,
     tabelle_prozent = tab_prop,
     chi_sq_test = chi_test,
     cramers_v = v_score,
-    interpretation = interpretation
   )
-  
-  # 'invisible' sorgt dafür, dass die Liste nicht nochmal automatisch 
-  # in die Konsole gedruckt wird, da wir oben schon alles schön ausgegeben haben.
-  return(invisible(results_list))
+  return(results_list)
 }
-
-#Test
-#test2 <- analyze_categorical_relation(titanic.data, "Sex","Survived")
-#print(test2)
-
 
 ######################################
 
@@ -221,157 +178,19 @@ cor_metr_dicho <- function(data, metr_var_name, dicho_var_name) {
   
 }
 
-#Test
-
-titanic_data <- read.csv("titanic_clean.csv")
-
-cor_metr_dicho(titanic_data, "Age", "Survived")
-
-cor_metr_dicho(titanic_data, "Age", "Sex")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-######################################
-
-# Funktion 4
-
-######################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ######################################
 
 # Funktion 5
 
 ######################################
 
-v.visualiation <- function(dataset = titanic.data, var1, var2, var3, var4 = NULL){
+v.visualiasation <- function(dataset = titanic.data, var1, var2, var3, var4 = NULL){
   #Wir speichern unsere Variablen in einem Vektor 
   var.vec <- c(var1, var2, var3, var4)
   
   #Wir speichern die länge für die Indizierung 
   var.amount <- length(var.vec)
-  
+   
   #Wir erstellen einen Data Frame an dem wir unsere Daten später anbinden können
   final.data <- data.frame()
   
@@ -409,47 +228,3 @@ v.visualiation <- function(dataset = titanic.data, var1, var2, var3, var4 = NULL
          x = "Merkmale",
          y = "Absolute Häufigkeit")
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

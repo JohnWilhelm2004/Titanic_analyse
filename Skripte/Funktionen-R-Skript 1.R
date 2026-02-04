@@ -4,7 +4,8 @@
 # Läd Hilfsfunktionen
 source("Funktionen-R-Skript 2.R")
 
-
+# bibliotheken
+library(tidyverse)
 
 
 
@@ -66,61 +67,8 @@ berechne_metrische_statistiken <- function(titanic.data) {
   return(ergebnisse)
 }
 # Testen
-metr_daten <- berechne_metrische_statistiken(titanic.data)
-print(metr_daten)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#metr_daten <- berechne_metrische_statistiken(titanic.data)
+#print(metr_daten)
 
 
 
@@ -134,62 +82,62 @@ print(metr_daten)
 ######################################
 
 
+# Berechnet Absolute & Relative Häufigkeiten und den Modalwert
+berechne_kategoriale_statistiken <- function(titanic.data) {
+  
+  relevante_spalten <- detect_categorical_columns(titanic.data)
+  
+  # Leeres Dataframe für Zusammenfassung Modalwerte
+  ergebnisse <- data.frame(
+    Variable = character(),
+    Modalwert = character(),
+    Anzahl = integer(),
+    Anteil_Prozent = double(),
+    stringsAsFactors = FALSE
+  )
+  
+  print("--- Detaillierte Häufigkeiten ---")
+  
+  for (col in relevante_spalten) {
+    werte <- titanic.data[[col]]
+    
+    # Häufigkeitstabelle erstellen absolute Häufigkeiten
+    # useNA = "ifany" zeigt fehlende Werte an
+    tabelle_absolut <- table(werte, useNA = "ifany")
+    
+    # Relative Häufigkeiten in Prozent
+    tabelle_relativ <- prop.table(tabelle_absolut) * 100
+    
+    # Ausgabe der Werte
+    cat("\nVariable:", col, "\n")
+    print(rbind(Absolut = tabelle_absolut, Prozent = round(tabelle_relativ, 2)))
+    
+    # 4. Modalwert bestimmen
+    # which.max gibt die Position des Maximums, names() gibt den Namen dazu
+    modal_name <- names(which.max(tabelle_absolut))
+    modal_anzahl <- max(tabelle_absolut)
+    modal_anteil <- max(tabelle_relativ)
+    
+    # Zusammenfassung speichern
+    neue_zeile <- data.frame(
+      Variable = col,
+      Modalwert = modal_name,
+      Anzahl = modal_anzahl,
+      Anteil_Prozent = round(modal_anteil, 2)
+    )
+    
+    ergebnisse <- rbind(ergebnisse, neue_zeile)
+  }
+  
+  print("---------------------------------")
+  
+  # Modalwerte Ausgeben
+  return(ergebnisse)
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Testen
+#kateg_daten <- berechne_kategoriale_statistiken(titanic.data)
+#print(kateg_daten)
 
 
 
@@ -204,7 +152,46 @@ print(metr_daten)
 
 
 
+analyze_categorical_relation <- function(data, var1, var2) {
+  # Erstellt eine Kreuztabelle
+  tab <- table(data[[var1]], data[[var2]])
+  
+  # Prozentuale Verteilung (relativ zu den Zeilen)
+  tab_prop <- prop.table(tab, margin = 1) * 100
+  
+  # Chi-Quadrat Test durchführen
+  chi_test <- chisq.test(tab)
+  
+  # Effektstärke über die Helferfunktion aus Skript 2 berechnen
+  v_score <- calc_cramers_v(tab)
+  
+  # Schöne Ausgabe
+  cat("--- Bivariate Analyse ---\n")
+  cat("Variablen:", var1, "und", var2, "\n\n")
+  
+  cat("Häufigkeitstabelle:\n")
+  print(tab)
+  
+  cat("\nRelative Häufigkeiten (in %, Zeilenweise):\n")
+  print(round(tab_prop, 2))
+  
+  cat("\nStatistische Kennzahlen:\n")
+  cat("- Chi-Quadrat-Wert:", round(chi_test$statistic, 3), "\n")
+  cat("- p-Wert:", format.pval(chi_test$p.value, eps = 0.001), "\n")
+  cat("- Cramérs V (Effektstärke):", round(v_score, 3), "\n")
+  
+  # Interpretation der Effektstärke
+  interpretation <- case_when(
+    v_score < 0.1 ~ "vernachlässigbar",
+    v_score < 0.3 ~ "schwach",
+    v_score < 0.5 ~ "mittel",
+    TRUE ~ "stark"
+  )
+  cat("- Interpretation: Ein", interpretation, "Zusammenhang.\n")
+}
 
+test <- analyze_categorical_relation(titanic.data)
+print(test)
 
 
 

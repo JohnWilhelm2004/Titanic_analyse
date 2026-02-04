@@ -52,7 +52,12 @@ analyze_categorical_relation <- function(data, var1, var2) {
   cat("--- Bivariate Analyse ---\n")
   cat("Variablen:", var1, "und", var2, "\n\n")
   
+  cat("Häufigkeitstabelle:\n")
   print(tab)
+  
+  cat("\nRelative Häufigkeiten (in %, Zeilenweise):\n")
+  print(round(tab_prop, 2))
+  
   cat("\nStatistische Kennzahlen:\n")
   cat("- Chi-Quadrat-Wert:", round(chi_test$statistic, 3), "\n")
   cat("- p-Wert:", format.pval(chi_test$p.value, eps = 0.001), "\n")

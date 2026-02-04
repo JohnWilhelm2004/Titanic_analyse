@@ -104,7 +104,7 @@ plot.sex <-  ggplot(Cor.data.sex$plot.data, aes(x = Gruppe, y = Prozent, fill = 
   scale_y_continuous(labels = scales::percent) +
   
   #Wir nehmen unsere Farbpallete
-  scale_fill_viridis_d(option = "mako", begin = 0.3, end = 0.8, name = "Status") +
+  scale_fill_viridis_d(option = "mako", begin = 0.4, end = 0.8, name = "Status") +
   
   #Fügen noch Achsenbeschriftungen hinzu
   labs(title = "Überlebenschance nach Geschlecht",
@@ -117,11 +117,29 @@ plot.sex <-  ggplot(Cor.data.sex$plot.data, aes(x = Gruppe, y = Prozent, fill = 
 
 print(plot.sex)
 
+#Plot 2 - Einfluss der Klasse auf die Überlebenschance - Hinweis auf SOziale Ungleichheit
 
 
+#Wir erstellen wieder ein Balkendiagramm nur diesesmal kein Gestapeltes
+plot.class <- ggplot(cor.data.pclass$plot.data, aes(x = Gruppe, y = Prozent, fill = Status)) +
+  
+  #Wir verwenden geom_bar nur diesesmal mit dodge damit die Balken nebeneinander sind 
+  geom_bar(stat = "identity", position = "fill") +
+  
+  #Wir wählen unsere klassische Farbpalette
+  scale_fill_viridis_d(option = "mako", begin = 0.4, end = 0.8, name = "Status") +
+  
+  #Fügen unsere Achsenbeschriftung und Theme hinzu 
+  labs(title = "Überlebensrate nach Passergierklasse",
+       x = "Klasse (1 = Hoch)",
+       y = "Anteil in Prozent") +
+  
+  theme_minimal(base_size = 12)
 
 
+print(plot.class)
 
+#Plot 3 - Zusammenhang zwischen Ticketpreisen und Überlebenschance
 
 
 

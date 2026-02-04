@@ -134,8 +134,9 @@ analyze_categorical_relation <- function(data, var1, var2) {
   # Prozentuale Verteilung
   tab_prop <- prop.table(tab, margin = 1) * 100
   
-  # Chi-Quadrat Test
+  #Statistiken
   chi_test <- chisq.test(tab)
+  v_score <- calc_cramers_v(tab)
   
   # Effektstärke
   v_score <- calc_cramers_v(tab)
@@ -146,6 +147,7 @@ analyze_categorical_relation <- function(data, var1, var2) {
     tabelle_prozent = tab_prop,
     chi_sq_test = chi_test,
     cramers_v = v_score,
+    plot.data = plot_df
   )
   return(results_list)
 }
@@ -166,15 +168,22 @@ cor_metr_dicho <- function(data, metr_var_name, dicho_var_name) {
   
   # Daten extrahieren:
   metr <- data[[metr_var_name]]
-  dicho <- get_dichotomous_vals(data, dicho_var_name) # anstelle von data[[dicho_var_name]]
+  dicho <- as.numeric(as.character(data[[dicho_var_name]]))
   
-  results <- list(
-    twosided = cor.test(metr, dicho),
-    onsided_greater = cor.test(metr, dicho, alternative = "greater"),
-    onsided_less = cor.test(metr, dicho, alternative = "less")
+  #NEU: Wir fügen einen Korrelationstest hinzu
+  test <- cor.test(metr, dicho)
+  
+  #NEU: Wir geben anstatt einer Liste einen Data Frame zurück
+  result.df <- data.frame(
+    var1 = metr_var_name,
+    var2 = dicho_var_name,
+    cor = round(test$estimate, 3),
+    p.val = format.pval(test$p.value, digits = 3),
+    significance = ifelse(test$p.value < 0.05, "Ja", "Nein")
   )
   
-  return(results)
+  
+  return(result.df)
   
 }
 
@@ -228,3 +237,4 @@ v.visualiasation <- function(dataset = titanic.data, var1, var2, var3, var4 = NU
          x = "Merkmale",
          y = "Absolute Häufigkeit")
 }
+

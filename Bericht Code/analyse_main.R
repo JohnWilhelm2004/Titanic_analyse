@@ -85,9 +85,11 @@ print(dicho.data.age)
 #Wie genau waren die Personengruppen die wir untersuchten verteilt und was genau haben sie gemacht 
 #Und wie viele von ihnen gestorben sind oder überlebt haben 
 
-facet.plot.data <- v.visualiasation(titanic.data, c("Survived", "Sex", "Pclass", "Embarked", "Side"))
+facet.plot.data <- v.visualiasation(titanic.data, c("Survived", "Sex", "Pclass"))
 
 print(facet.plot.data)
+
+ggsave("Plot0.png", plot = facet.plot.data, width = 10, height = 4.5, dpi = 300)
 
 #Teil 2 - Erstellung visueller Plots für den Bericht
 #Wir wollen unsere Aussagen jetzt gut darstellbar machen für diese Abgabe
@@ -123,6 +125,8 @@ plot.fare <- ggplot(plot.1.data, aes(x = as.factor(Survived), y = Fare, fill = a
 
 print(plot.fare)
 
+ggsave("Plot1.png", plot = plot.fare, width = 10, height = 4.5, dpi = 300)
+
 #Plot 2 - Zusammenhang zwischen Familiengröße und Überlebenschance 
 
 #Wir rechnen geschwister eheparter und Kinder zusammen für eine Familiengröße
@@ -156,6 +160,8 @@ plot.famsize <- ggplot(plot.4.data, aes(x = FamilyGroup, fill = Survived)) +
 #Wir geben unseren Plot aus 
 print(plot.famsize)
 
+ggsave("Plot2.png", plot = plot.famsize, width = 10, height = 4.5, dpi = 300)
+
 #Plot 3 - Density Plot - Übrelebende vs. Tote Altersverteilung 
 
 #Wir modifiziren wieder die Plot namen für die Achsenbeschriftung 
@@ -165,7 +171,7 @@ plot.3.data <- titanic.data %>%
   )
 
 #Wir erstellen unseren Denstiy Plot
-ggplot(plot.3.data, aes(x = Age, fill = Survived, color = Survived)) +
+plot3 <- ggplot(plot.3.data, aes(x = Age, fill = Survived, color = Survived)) +
   
   #Densityplot
   geom_density(alpha = 0.7) +
@@ -190,3 +196,4 @@ ggplot(plot.3.data, aes(x = Age, fill = Survived, color = Survived)) +
     y = "Dichte (rel. Hauefigkeit)"
   )
 
+ggsave("Plot3.png", plot = plot3, width = 10, height = 4.5, dpi = 300)

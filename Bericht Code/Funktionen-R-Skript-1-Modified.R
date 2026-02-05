@@ -212,6 +212,7 @@ v.visualiasation <- function(dataset = titanic.data, var.vec){
     final.data <- rbind(final.data, data.transform(var.vec[i], dataset))
   }
   
+  
   #Jetzt erstellen wir mit ggplot den Finalen schritt
   ggplot(final.data, aes(x = var.string, y = abs.prob, fill = Survived)) +
     

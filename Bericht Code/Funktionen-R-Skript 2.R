@@ -110,13 +110,13 @@ data.transform <- function(var, dataset) {
   resulted.data <- dataset %>%
     
     #Wir wählen unsere Aktuelle Spalte
-    select(var.string = .data[[curr.var]]) %>%
+    select(var.string = all_of(curr.var), Survived) %>%
     
     #Wir entfernen alle Fehlenden Werte
     drop_na() %>%
     
     #Wir zählen die Absoluten Häufigkeiten
-    count(var.string) %>%
+    count(var.string, Survived) %>%
     
     #Wir bennen unsere Variablen um 
     rename(abs.prob = n) %>%

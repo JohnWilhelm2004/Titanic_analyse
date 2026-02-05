@@ -98,7 +98,7 @@ print(facet.plot.data)
 plot.sex <-  ggplot(Cor.data.sex$plot.data, aes(x = Gruppe, y = Prozent, fill = Status)) +
   
   #Wir erstellen unseren Barplot durch fill wird er immer 100% sein 
-  geom_bar(stat = "identity", position = "fill") +
+  geom_bar(stat = "identity", position = "fill", alpha = 0.5) +
   
   #Wir passen die y-Achse an um Prozente darzustellen
   scale_y_continuous(labels = scales::percent) +
@@ -158,4 +158,35 @@ plot.fare <- ggplot(titanic.data, aes(x = as.factor(Survived), y = Fare, fill = 
 
  print(plot.fare)
 
+#Plot 4 - Zusammenhang zwischen Familiengröße und Überlebenschance 
+ 
+ titanic.data$Familysize = titanic.data$SibSp + titanic.data$Parch + 1 
+ 
+ plot.4.data <- titanic.data %>%
+   
+   #Wir wählen unsere Spalten aus 
+   select("Familysize", "Survived") %>%
+   
+   group_by(Familysize) %>%
+   
+   summarise(
+     Total = n(),
+     Ueberlebenede = sum(as.numeric(as.character(Survived))),
+     Survival.rate = round(Ueberlebenede / Total * 100, 2)
+   ) %>% 
+
+   drop_na() %>%
+   
+ arrange(desc(Survival.rate))
+ 
+ plot.famsize <- ggolot(titanic.data, aes(x = as.factor(Familysize), fill = Survived)) +
+   geom_bar(position = "fill") +
+   scale_y_continuous(labels = scales::percent) +
+   scale_fill_viridis_d(option = "mako", begin = 0.3, end = 0.8, name = "Status") +
+   labs(title = "Überlebenschance nach Familiengröße",
+        x = "Anzahl der Familienmitglieder",
+        y = "Überlebendenanteil") +
+   theme_minimal(base_size = 12)
+ 
+ print(plot.famsize)
 

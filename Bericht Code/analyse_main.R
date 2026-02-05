@@ -12,8 +12,6 @@ titanic.data$Pclass <- as.factor(titanic.data$Pclass)
 titanic.data$Sex <- as.factor(titanic.data$Sex)
 titanic.data$Embarked <- as.factor(titanic.data$Embarked)
 
-
-
 #Wir nutzen die Funktionen um einen Überblick zu bekommen und um Hypothesen zu
 #testen
 
@@ -85,68 +83,34 @@ print(dicho.data.age)
 
 #Wir verwenden Funktion 5 um einen Übersichtsplot über die Ereignesse zu Zeigen, 
 #Wie genau waren die Personengruppen die wir untersuchten verteilt und was genau haben sie gemacht 
+#Und wie viele von ihnen gestorben sind oder überlebt haben 
 
-facet.plot.data <- v.visualiasation(titanic.data, "Survived", "Sex", "Pclass")
+facet.plot.data <- v.visualiasation(titanic.data, c("Survived", "Sex", "Pclass", "Embarked", "Side"))
 
 print(facet.plot.data)
 
 #Teil 2 - Erstellung visueller Plots für den Bericht
 #Wir wollen unsere Aussagen jetzt gut darstellbar machen für diese Abgabe
 
-#1.Plot untersuchung des Einflusses von Geschlecht auf die Überlebenschancen
-
-plot.sex <-  ggplot(Cor.data.sex$plot.data, aes(x = Gruppe, y = Prozent, fill = Status)) +
-  
-  #Wir erstellen unseren Barplot durch fill wird er immer 100% sein 
-  geom_bar(stat = "identity", position = "fill", alpha = 0.5) +
-  
-  #Wir passen die y-Achse an um Prozente darzustellen
-  scale_y_continuous(labels = scales::percent) +
-  
-  #Wir nehmen unsere Farbpallete
-  scale_fill_viridis_d(option = "mako", begin = 0.4, end = 0.8, name = "Status") +
-  
-  #Fügen noch Achsenbeschriftungen hinzu
-  labs(title = "Überlebenschance nach Geschlecht",
-       x = "Geschlecht",
-       y = "Anteil") +
-  
-  #Und wählen unser Theme
-  theme_minimal(base_size = 12)
+#Plot 1 - Zusammenhang zwischen Ticketpreisen und Überlebenschance
 
 
-print(plot.sex)
-
-#Plot 2 - Einfluss der Klasse auf die Überlebenschance - Hinweis auf SOziale Ungleichheit
-
-
-#Wir erstellen wieder ein Balkendiagramm nur diesesmal kein Gestapeltes
-plot.class <- ggplot(cor.data.pclass$plot.data, aes(x = Gruppe, y = Prozent, fill = Status)) +
+#Wir bennen Survial noch um damit es im Plot richtig steht 
+plot.1.data <- titanic.data %>%
+  #
+  mutate(
+    Survived = factor(Survived, levels = c(0, 1), labels = c("Verstorben", "Überlebt"))
+  ) 
   
-  #Wir verwenden geom_bar nur diesesmal mit dodge damit die Balken nebeneinander sind 
-  geom_bar(stat = "identity", position = "fill") +
+#Wir erstellen unseren Plot mit ggplot
+plot.fare <- ggplot(plot.1.data, aes(x = as.factor(Survived), y = Fare, fill = as.factor(Survived))) +
   
-  #Wir wählen unsere klassische Farbpalette
-  scale_fill_viridis_d(option = "mako", begin = 0.4, end = 0.8, name = "Status") +
+  #Wir nehmen einen Boxplot um eine gute Übersicht über die Verteilung der Ticketpreise zu bekommen
+  geom_boxplot(outlier.shape = 2, apha = 0.9) + #Ausreißer werden damit als Kreise dargestellt 
   
-  #Fügen unsere Achsenbeschriftung und Theme hinzu 
-  labs(title = "Überlebensrate nach Passergierklasse",
-       x = "Klasse (1 = Hoch)",
-       y = "Anteil in Prozent") +
+  scale_y_log10() + #Logarithmische Skala wegen der extremen Differenzen der Preise  
   
-  theme_minimal(base_size = 12)
-
-
-print(plot.class)
-
-#Plot 3 - Zusammenhang zwischen Ticketpreisen und Überlebenschance
-
-plot.fare <- ggplot(titanic.data, aes(x = as.factor(Survived), y = Fare, fill = as.factor(Survived))) +
-  
-  geom_boxplot(outlier.shape = 2) + #Ausreißer werden damit als Kreise dargestellt 
-  
-  scale_y_log10() + #Logarithmische Skala wegen der extremen Differenzen der  Preise  
-  
+  #Wir erstellen die Achsenbeschriftung sowie unsere Standard Farbpallete 
   scale_fill_viridis_d(option = "mako", begin = 0.4, end = 0.8) +
   
   labs(title = "Verteilung der Ticketpreise nach Überleben",
@@ -155,38 +119,74 @@ plot.fare <- ggplot(titanic.data, aes(x = as.factor(Survived), y = Fare, fill = 
   
   theme_minimal()
 
+#Wir geben unseren plot aus 
 
- print(plot.fare)
+print(plot.fare)
 
-#Plot 4 - Zusammenhang zwischen Familiengröße und Überlebenschance 
- 
- titanic.data$Familysize = titanic.data$SibSp + titanic.data$Parch + 1 
- 
- plot.4.data <- titanic.data %>%
-   
-   #Wir wählen unsere Spalten aus 
-   select("Familysize", "Survived") %>%
-   
-   group_by(Familysize) %>%
-   
-   summarise(
-     Total = n(),
-     Ueberlebenede = sum(as.numeric(as.character(Survived))),
-     Survival.rate = round(Ueberlebenede / Total * 100, 2)
-   ) %>% 
+#Plot 2 - Zusammenhang zwischen Familiengröße und Überlebenschance 
 
-   drop_na() %>%
-   
- arrange(desc(Survival.rate))
- 
- plot.famsize <- ggolot(titanic.data, aes(x = as.factor(Familysize), fill = Survived)) +
-   geom_bar(position = "fill") +
-   scale_y_continuous(labels = scales::percent) +
-   scale_fill_viridis_d(option = "mako", begin = 0.3, end = 0.8, name = "Status") +
-   labs(title = "Überlebenschance nach Familiengröße",
-        x = "Anzahl der Familienmitglieder",
-        y = "Überlebendenanteil") +
-   theme_minimal(base_size = 12)
- 
- print(plot.famsize)
+#Wir rechnen geschwister eheparter und Kinder zusammen für eine Familiengröße
+titanic.data$FamilySize <- titanic.data$SibSp + titanic.data$Parch + 1
+
+#Alle Familien >= 5 gruppieren wir zu einem Im plot für Übersichtlichkeit
+titanic.data$FamilyGroup <- ifelse(titanic.data$FamilySize >= 5, "5+", titanic.data$FamilySize)
+
+#Wir ändern wieder die labels für verstorben und Überlebt 
+plot.4.data <- titanic.data %>%
+  
+  mutate(
+    Survived = factor(Survived, levels = c(0, 1), labels = c("Verstorben", "Überlebt"))
+  ) 
+
+#Wir erstellen wieder unseren ggplot 
+plot.famsize <- ggplot(plot.4.data, aes(x = FamilyGroup, fill = Survived)) +
+  
+  #Wir erstellen unser Balken diagramm mit "stack" für die absoluten Häufigkeiten
+  geom_bar(position = "stack", alpha = 0.9) +
+  
+  #Wieder unsere Achsenbeschriftung und Typische Farbpalette
+  scale_fill_viridis_d(option = "mako", begin = 0.3, end = 0.8, name = "Status") +
+  
+  labs(title = "Überlebenschance nach Familiengröße",
+       x = "Anzahl der Familienmitglieder",
+       y = "Überlebendenanteil") +
+  
+  theme_minimal(base_size = 12)
+
+#Wir geben unseren Plot aus 
+print(plot.famsize)
+
+#Plot 3 - Density Plot - Übrelebende vs. Tote Altersverteilung 
+
+#Wir modifiziren wieder die Plot namen für die Achsenbeschriftung 
+plot.3.data <- titanic.data %>%
+  mutate(
+    Survived = factor(Survived, levels = c(0, 1), labels = c("Verstorben", "Überlebt"))
+  )
+
+#Wir erstellen unseren Denstiy Plot
+ggplot(plot.3.data, aes(x = Age, fill = Survived, color = Survived)) +
+  
+  #Densityplot
+  geom_density(alpha = 0.7) +
+  
+  #Wir zeichnen die Line wo age 0 18 ist damit man den Unterschied zwischen Kindern und Erwachsenen besser sehen kann
+  geom_vline(xintercept = 18, linetype = "dashed", color = "black") +
+  
+  #Wir nehmen wieder unsere Farbpalette 
+  scale_fill_viridis_d(option = "mako", begin = 0.3, end = 0.8) +
+  
+  scale_color_viridis_d(option = "mako", begin = 0.3, end = 0.8) +
+  
+  #Wir fügen noch ein paar Theme Optionen für die Schönheit hinzu
+  theme_minimal(base_size = 12) +
+  
+  theme(
+    legend.position = "right"
+  ) +
+  labs(
+    title = "Verteilung des Alters bei Überlebenden versus Verstorbenen",
+    x = "Alter",
+    y = "Dichte (rel. Hauefigkeit)"
+  )
 

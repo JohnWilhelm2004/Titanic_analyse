@@ -212,16 +212,21 @@ v.visualiasation <- function(dataset = titanic.data, var.vec){
     final.data <- rbind(final.data, data.transform(var.vec[i], dataset))
   }
   
+  rename.data <- c(
+    "Pclass" = "Passergierklasse",
+    "Sex" = "Geschlecht",
+    "Survived" = "Überlebt"
+  )
   
   #Jetzt erstellen wir mit ggplot den Finalen schritt
   ggplot(final.data, aes(x = var.string, y = abs.prob, fill = Survived)) +
     
     #Wir erstellen unseren Barplot
     #(stat = identity sorgt dafür das die Daten nicht neugezählt werden)
-    geom_bar(stat = "identity", position = "stack") +
+    geom_bar(stat = "identity", position = "stack", alpha = 0.9) +
     
     #Wir erstellen für jedes der gewählten Merkmale einen Eigenen Barplot 
-    facet_wrap(~var, scales = "free_x") +
+    facet_wrap(~var, scales = "free_x", labeller = as_labeller(rename.data)) +
     
     #Wir nehmen unsere Farbpalette damit das ganze gut aussieht 
     scale_fill_viridis_d(option = "mako", begin = 0.3, end = 0.8) +
@@ -232,7 +237,6 @@ v.visualiasation <- function(dataset = titanic.data, var.vec){
     #Wir platzieren Beschriftungen rechts und entfernen doppelte Überschriften
     theme(
       legend.position = "right",
-      strip.text = element_blank()
     ) +
     
     #Wir fügen allgemeine Achsenbeschriftung hinzu

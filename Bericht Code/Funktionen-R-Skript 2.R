@@ -122,7 +122,11 @@ data.transform <- function(var, dataset) {
     rename(abs.prob = n) %>%
     
     #Wir fügen noch eine Spalte hinzu damit facet_wrap später weiß zu welchem Barplot das gehört
-    mutate(var = curr.var)
+    mutate(var = curr.var) %>%
+    
+    #Umbennen von Survived
+    mutate(Survived = factor(Survived, levels = c(0, 1), labels = c("Verstorben", "Überlebt")))
+  
   
   #Wir geben unsere Formatierte Tabelle an rbind zurück
   return(resulted.data)

@@ -108,7 +108,7 @@ plot.1.data <- titanic.data %>%
 plot.fare <- ggplot(plot.1.data, aes(x = as.factor(Survived), y = Fare, fill = as.factor(Survived))) +
   
   #Wir nehmen einen Boxplot um eine gute Übersicht über die Verteilung der Ticketpreise zu bekommen
-  geom_boxplot(outlier.shape = 2, apha = 0.9) + #Ausreißer werden damit als Kreise dargestellt 
+  geom_boxplot(outlier.shape = 2, alpha = 0.9) + #Ausreißer werden damit als Kreise dargestellt 
   
   scale_y_log10() + #Logarithmische Skala wegen der extremen Differenzen der Preise  
   

@@ -89,7 +89,7 @@ facet.plot.data <- v.visualiasation(titanic.data, c("Survived", "Sex", "Pclass")
 
 print(facet.plot.data)
 
-ggsave("Plot0.png", plot = facet.plot.data, width = 10, height = 4.5, dpi = 300)
+ggsave("Plot0.pdf", plot = facet.plot.data, width = 10, height = 4.5, dpi = 300)
 
 #Teil 2 - Erstellung visueller Plots für den Bericht
 #Wir wollen unsere Aussagen jetzt gut darstellbar machen für diese Abgabe
@@ -125,7 +125,7 @@ plot.fare <- ggplot(plot.1.data, aes(x = as.factor(Survived), y = Fare, fill = a
 
 print(plot.fare)
 
-ggsave("Plot1.png", plot = plot.fare, width = 10, height = 4.5, dpi = 300)
+ggsave("Plot1.pdf", plot = plot.fare, width = 10, height = 4.5, dpi = 300)
 
 #Plot 2 - Zusammenhang zwischen Familiengröße und Überlebenschance 
 
@@ -160,7 +160,7 @@ plot.famsize <- ggplot(plot.4.data, aes(x = FamilyGroup, fill = Survived)) +
 #Wir geben unseren Plot aus 
 print(plot.famsize)
 
-ggsave("Plot2.png", plot = plot.famsize, width = 10, height = 4.5, dpi = 300)
+ggsave("Plot2.pdf", plot = plot.famsize, width = 10, height = 4.5, dpi = 300)
 
 #Plot 3 - Density Plot - Übrelebende vs. Tote Altersverteilung 
 
@@ -196,4 +196,4 @@ plot3 <- ggplot(plot.3.data, aes(x = Age, fill = Survived, color = Survived)) +
     y = "Dichte (rel. Hauefigkeit)"
   )
 
-ggsave("Plot3.png", plot = plot3, width = 10, height = 4.5, dpi = 300)
+ggsave("Plot3.pdf", plot = plot3, width = 10, height = 4.5, dpi = 300)

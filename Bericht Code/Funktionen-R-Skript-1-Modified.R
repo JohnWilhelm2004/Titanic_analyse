@@ -198,7 +198,7 @@ cor_metr_dicho <- function(data, metr_var_name, dicho_var_name) {
 
 v.visualiasation <- function(dataset = titanic.data, var.vec){
   #Wir speichern unsere Variablen in einem Vektor 
-  
+  var.vec <- var.vec[var.vec != "Survived"]
   #Wir speichern die länge für die Indizierung 
   var.amount <- length(var.vec)
    
@@ -212,12 +212,13 @@ v.visualiasation <- function(dataset = titanic.data, var.vec){
     final.data <- rbind(final.data, data.transform(var.vec[i], dataset))
   }
   
+  
   #Jetzt erstellen wir mit ggplot den Finalen schritt
   ggplot(final.data, aes(x = var.string, y = abs.prob, fill = Survived)) +
     
     #Wir erstellen unseren Barplot
     #(stat = identity sorgt dafür das die Daten nicht neugezählt werden)
-    geom_bar(stat = "identity", position = fill) +
+    geom_bar(stat = "identity", position = "stack") +
     
     #Wir erstellen für jedes der gewählten Merkmale einen Eigenen Barplot 
     facet_wrap(~var, scales = "free_x") +

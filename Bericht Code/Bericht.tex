@@ -45,9 +45,9 @@
 \usepackage{blindtext}
 
 
-\title{Wissenschaftliches Arbeiten}
+\title{Einflussfaktoren auf die Überlebenschancen beim Untergang der Titanic}
 \author{Lukas König, Elaha Bahir, John Wilhelm, Annika Homm}
-\date{February 2026}
+\date{06.02.2026}
 
 \begin{document}
 
@@ -58,18 +58,14 @@ Der Untergang der Titanic ist ein weltbekanntes Ereignis in der Geschichte der M
 
 \section{Daten und Methoden}
 \begin{itemize}
-    \item \textbf{Datensatz, Bereinigung und Imputation:} Zur Datenanalyse wurde der Datensatz titanic.csv verwendet. Leere Zeichenketten wurden als \texttt{NA} kodiert und nicht für die Analyse relevante Variablen (wie \textit{PassengerID, Name, Ticket, Cabin}) wurden nach Merkmalsextraktion entfernt.
-    \item \textbf{Umgang mit fehlenden Werten:}
+    \item \textbf{Daten:} Zur Datenanalyse wurde der Datensatz titanic.csv und die Pakete "tidyverse" und "ggplot2" verwendet. Die Variable \textit{Age} hat 177 NA-Werte (ca. 19,86\%), \textit{Embarked} besitzt 2 leere Zellen (ca. 0,22\%) und \textit{Cabin} hat 687 leere Zellen, was einer Quote von ca. 77,10\% entspricht.
+    \item \textbf{Methodik:}
+    Leere Zeichenketten wurden als \texttt{NA} kodiert und nicht für die Analyse relevante Variablen (wie \textit{PassengerID, Name, Ticket, Cabin}) wurden nach Merkmalsextraktion entfernt.
     \begin{itemize}
         \item \textbf{Age (Alter in Jahren beim Untergang):} Fehlende Werte wurden durch das arithmetische Mittel der jeweiligen Titelgruppe ersetzt, um die demografische Struktur beizubehalten und keinen Bias zu kreieren.
         \item \textbf{Embarked (Zustiegshafen):} Zwei fehlende Einträge wurden durch den Modus "Southhampton" (S) ersetzt.
-    \end{itemize}
-
-    \item \textbf{Merkmalsanpassung:}
-    \begin{itemize}
-        \item \textbf{Name (Name des Reisenden):} Aus den Namen wurden Anreden extrahiert und harmonisiert (z.B.Mlle/Ms zu Miss). Seltene Titel wurden unter "Rare" zusammengefasst.
-        \item \textbf{Cabin (Kabinennummer):} Aus der Kabinennummer wurden das \textbf{Deck} (\textit{Deck}) und die \textbf{Schiffsseite} (\textit{Side}) mittels Modulo-Operation extrahiert
-        \item \textit{Hinweis: Aufgrund der hohen NA-Quote der Variablen \textit{Deck} und \textit{Side} und da sie durch Passagiere der ersten Klasse überrepräsentiert (80\%) ist, ist eine Analyse dieser Variablen verzerrt (Selection Bias). Im weiteren Verlauf des Berichts wird daher de Fokus auf die robusteren Variablen wie Geschlecht, Klasse und Alter gelegt.}
+        \item \textbf{Cabin (Kabinennummer):} Aus der Kabinennummer wurden das \textbf{Deck} (\textit{Deck}) und die \textbf{Schiffsseite} (\textit{Side}) mittels Modulo-Operation extrahiert.
+        \item \textit{Hinweis: Aufgrund der hohen NA-Quote der Variablen \textit{Deck} und \textit{Side} und da sie durch Passagiere der dritten Klasse überrepräsentiert (ca. 69,72\%) ist, ist eine Analyse dieser Variablen verzerrt (Selection Bias). Im weiteren Verlauf des Berichts wird daher de Fokus auf die robusteren Variablen wie Geschlecht, Klasse und Alter gelegt.}
     \end{itemize}
     \item \textbf{Datentransformation:}
     Die Variablen \textit{Sex, Survived, Embarked, Side} und \textit{Deck} wurden als Faktoren kodiert. Die Passagierklasse (\textit{Pclass}) wurde als \textbf{ordered factor} definiert umd die Rangfolge abzubilden.
@@ -78,31 +74,36 @@ Der Untergang der Titanic ist ein weltbekanntes Ereignis in der Geschichte der M
 \section{Ergebnisse}
 
 %Plot0% 
-\subsection{...1}
+\subsection{Katergorielle Merkmale unterschieden nach Überlebtheit}
 %Grafik Plot 0%
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{Plot0.pdf}
-    \caption{...2}
+    \caption{Absolute Häufigkeiten kategorieller Daten unterschieden nach Überlebtheit}
 \end{figure}
 
-Plot 0: Absolute Häufigkeiten kategorieller Daten, und davon die relative Häufigkeiten der Überlebten
-- Diese Gruppen waren am meisten vertreten (Demografie) (dritte Preisklasse, Männer, die  meisten haben nicht überlebt)
-- Diese Gruppen haben am ehesten überlebt (Frauen, Erste Preisklasse)
-- Beim Geschlecht war der Unterschied am größten
-   -> weil: Frauen und Kinder zuerst?
-   -> weil: Männer waren meist allein
+% Plot 0: Absolute Häufigkeiten kategorieller Daten, und davon die relative Häufigkeiten der Überlebten
+% - Diese Gruppen waren am meisten vertreten (Demografie) (dritte Preisklasse, Männer, die  meisten haben nicht überlebt)
+% - Diese Gruppen haben am ehesten überlebt (Frauen, Erste Preisklasse)
+% - Beim Geschlecht war der Unterschied am größten
+%    -> weil: Frauen und Kinder zuerst?
+%    -> weil: Männer waren meist allein
 
-%Plot0% 
+Die Demografie der Passagiere am Bord der Titanic bestand zum Großteil aus Männern und der Passagierklasse 3. Mehr als die Hälfte, ca. 61,61\% , haben den Untergang der Titanic nicht überlebt. In der ersten Passagierklasse, hat die Mehrheit überlebt, in der zweiten Passagierklasse war es fast ausgeglichen und in der dritten Klasse ist die große Mehrheit gestorben. Interessanterweise überlebten in jeder Klasse fast gleich viele, doch der Anteil der Menschen in der dritten Klasse ist weitaus größer als in den anderen zwei Klassen, die von der Größe her vergleichbar sind, wobei Klasse 1 noch etwas mehr vertreten ist. Ein weiterer großer Unterschied besteht zwischen den überlebten Frauen und Männern, denn Unter den Überlebenden gab es ca. doppelt so viele Frauen, als Männer. Der Anteil der Überlebenden bestand aus ca. 68,12\% aus Frauen. Dem gegenüber gab es fast doppelt so viele Männer an Bord als Frauen. Unter den Männern überlebten nur ca. 31,87\%.
+
+
+
+%Plot1% 
 \subsection{...1}
-%Grafik Plot 0%
+%Grafik Plot 1%
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{Plot1.pdf}
     \caption{...2}
 \end{figure}
 
-Plot 1: Alter und Überleben (Kinder überleben eher, bestätigt das Prinzip, ALLERDINGS mit Vorsicht zu interpretieren, da die NAs mit dem Durchschnittsalteraufgefüllt wurden)
+Es gibt bei den Verstorbenen eine deutliche Tendenz nach unten, der Median orientiert sich an das untere Quartil und beide Quartile liegen unter den Quartilen der Überlebenden. Zudem gibt es bei den Verstorbenen auch viele aureißer nach oben, was darauf hindeutet, dass vereinzelt auch Passagiere mit teureren Tickets verstorben sind, allerdings verhältnismäßig wenige. Bei den Überlebten liegt der mediane Ticketpreis knapp unter 30 Währungseinheiten und somit fast 3 mal teurer als der mediane Ticketpreis der Verstorbenen (ca. 10 Währungseinheiten). Der Median liegt zudem mittig und es gibt keine Ausreißer.
+
 
 %Plot2% 
 \subsection{...1}
@@ -113,8 +114,9 @@ Plot 1: Alter und Überleben (Kinder überleben eher, bestätigt das Prinzip, AL
     \caption{...2}
 \end{figure}
 
-Plot 3: Histogramm Familiengröße und Überleben (Kleine Familien überleben eher, vielleicht weil sie nicht alle in ein boot passen -> passt auch zur these "frauen und kinder zuerst?")
+% Plot 2: Histogramm Familiengröße und Überleben (Kleine Familien überleben eher, vielleicht weil sie nicht alle in ein boot passen -> passt auch zur these "frauen und kinder zuerst?")
 
+bei der Mehrheit der Passagiere handelte es sich um Alleinreisende, wobei der Großteil von ihnen nicht überlebte. Auch Familien ab einer Größe von fünf und höher sind zu ...\% verstorben, wobei diese eher selten vertreten waren.
 
 %Plot3% 
 \subsection{...1}
@@ -125,8 +127,11 @@ Plot 3: Histogramm Familiengröße und Überleben (Kleine Familien überleben eh
     \caption{...2}
 \end{figure}
 
+% Plot 3: Alter und Überleben (Kinder überleben eher, bestätigt das Prinzip, ALLERDINGS mit Vorsicht zu interpretieren, da die NAs mit dem Durchschnittsalteraufgefüllt wurden)
+Sowohl unter den Überlebenden, als auch den Verstorbenen liegt das Alter meist zwischen ca. 16-40 Jahren. Aufällig ist der Spike bei den Überlebenden zwischen etwas 0 und 10 jahren, welcher bei den verstorbenen nicht vorhanden ist. Dies deutet darauf hin, dass Babys und kleine Kinder deutlich häufiger überlebt haben. Ein zweiter Spike befindet sich bei den Verstorbenen von etwa 30 jahren gibt, welcher durch die Datenimputation der Mittelwerte zurückzuführen ist, was eine Interpretion erschwert. Da die Datenimputation nach dem Mitelwert der jeweiligen Titel-klasse erfolgt ist, ist die Interpretation, dass Kinder (z.B. mit dem Titel Master) häufiger überleben nicht gefährdet.
+
 \section{Fazit}
 
-Zusammenfassend lässt sich sagen, dass überwiegend ... überlebt haben ...
+Zusammenfassend lässt sich sagen, dass überwiegend Frauen überlebt haben, und das obwohl sie demografisch weniger an Bord vertreten waren. Zusätzlich haben auch Kinder deutlich häufiger überlebt, was auf das Prinzip von "Frauen und Kinder zuerst" schließen lässt. Große Familien haben allerdings häufig nicht überlebt, vermutlich weil sie nicht alle auf ein Rettungsboot gepasst haben und daher zurückbleiben mussten. Auch Alleinreisende sind zu einem großen Anteil verstorben, eventuell weil ca. 60,33\% von ihnen die dritte Passagierklasse besaß oder weil ca. 76,53\% von ihnen männlich waren. Letztendlich lässt sich sagen, dass vermutlich sowohl die Moral (Frauen und Kinder zuerst), als auch das Geld die Passagiere gerettet hat.
 
 \end{document}

@@ -1,8 +1,52 @@
-\documentclass{article}
-\usepackage{graphicx} % Required for inserting images
+\documentclass[a4paper, 12pt]{article}
+
+% --- Sprache und Kodierung ---
+\usepackage[utf8]{inputenc}       % Ermöglicht Umlaute direkt einzugeben
+\usepackage[T1]{fontenc}          % Korrekte Trennung von Wörtern mit Umlauten
+\usepackage[ngerman]{babel}       % Deutsche Silbentrennung und Bezeichnungen (z.B. "Abbildung")
+\usepackage{csquotes}             % Für korrekte deutsche Anführungszeichen
+
+% --- Seitenlayout und Ränder ---
+% Hinweis: Deine Titelseite hatte sehr schmale Ränder. Für den Lesetext
+% sind 2,5cm Standard. Wir können für die Titelseite später Ausnahmen definieren.
+\usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage{setspace}             % Für Zeilenabstand
+\onehalfspacing                   % 1.5-facher Zeilenabstand (Standard für Berichte)
+\usepackage{pdfpages}
+
+% --- Schriftart (Optional) ---
+% Standard ist Computer Modern. Viele Berichte nutzen Times (mathptmx) oder Palatino (mathpazo).
+% Wenn du den Standard magst, kannst du die nächste Zeile auskommentieren.
+\usepackage{lmodern}              % Eine schärfere Version der Standardschrift
+
+% --- Grafiken und Bilder ---
+\usepackage{graphicx}             % Zum Einbinden von Bildern (deine R-Plots)
+\usepackage{float}                % Erlaubt die Positionierung [H] (Hier und wirklich hier)
+\usepackage{caption}              % Schöneren Bildunterschriften
+\usepackage{subcaption}           % Erlaubt mehrere Bilder nebeneinander (a, b)
+
+% --- Tabellen (aus deiner Titelseite übernommen & erweitert) ---
+\usepackage{booktabs}             % Für professionelle Tabellenlinien (\toprule, \midrule)
+\usepackage{rotating}             % Um Tabellen zu drehen
+\usepackage{tabularx}             % Tabellen mit automatischer Spaltenbreite
+\usepackage{multirow}             % Zellen über mehrere Zeilen verbinden
+\usepackage{color, colortbl}      % Farben in Tabellen
+\definecolor{Gray}{gray}{0.9}     % Deine definierte Farbe
+
+% --- Mathematik und Symbole ---
+\usepackage{amsmath}              % Wichtig für statistische Formeln (Korrelationen etc.)
+\usepackage{amssymb}              % Mathematische Symbole
+\usepackage{amsfonts}
+
+% --- Verweise und Links ---
+\usepackage[hidelinks]{hyperref}  % Klickbare Links im PDF (ohne rote Kästen)
+
+% --- Blindtext (nur zum Testen, kann später raus) ---
+\usepackage{blindtext}
+
 
 \title{Wissenschaftliches Arbeiten}
-\author{Lukas König, Annika Homm}
+\author{Lukas König, Elaha Bahir, John Wilhelm, Annika Homm}
 \date{February 2026}
 
 \begin{document}
@@ -10,20 +54,76 @@
 \maketitle
 
 \section{Einleitung}
-Der Untergang der Titanic ist ein weltbekanntes Ereignis in der Geschichte der Menschheit. Seit jeher wirft es viele Frage auf. In diesem Bericht soll es darum gehen, welche Menschengruppen am misten auf dem Schiff vertreten waren und welche von ihnen eher überlebt haben.
+Der Untergang der Titanic ist ein weltbekanntes Ereignis in der Geschichte der Menschheit. Seit jeher wirft es viele Frage auf. In diesem Bericht soll es darum gehen, durch eine explorative Datenanalyse signifikante Merkmale (wie Geschlecht, Alter, Klasse) der Passagiere auf der Titanic zu identifizieren und Zusammenhänge zum Überleben zu finden.
+
+\section{Daten und Methoden}
+\begin{itemize}
+    \item \textbf{Datensatz, Bereinigung und Imputation:} Zur Datenanalyse wurde der Datensatz titanic.csv verwendet. Leere Zeichenketten wurden als \texttt{NA} kodiert und nicht für die Analyse relevante Variablen (wie \textit{PassengerID, Name, Ticket, Cabin}) wurden nach Merkmalsextraktion entfernt.
+    \item \textbf{Umgang mit fehlenden Werten:}
+    \begin{itemize}
+        \item \textbf{Age (Alter in Jahren beim Untergang):} Fehlende Werte wurden durch das arithmetische Mittel der jeweiligen Titelgruppe ersetzt, um die demografische Struktur beizubehalten und keinen Bias zu kreieren.
+        \item \textbf{Embarked (Zustiegshafen):} Zwei fehlende Einträge wurden durch den Modus "Southhampton" (S) ersetzt.
+    \end{itemize}
+
+    \item \textbf{Merkmalsanpassung:}
+    \begin{itemize}
+        \item \textbf{Name (Name des Reisenden):} Aus den Namen wurden Anreden extrahiert und harmonisiert (z.B.Mlle/Ms zu Miss). Seltene Titel wurden unter "Rare" zusammengefasst.
+        \item \textbf{Cabin (Kabinennummer):} Aus der Kabinennummer wurden das \textbf{Deck} (\textit{Deck}) und die \textbf{Schiffsseite} (\textit{Side}) mittels Modulo-Operation extrahiert
+        \item \textit{Hinweis: Aufgrund der hohen NA-Quote der Variablen \textit{Deck} und \textit{Side} und da sie durch Passagiere der ersten Klasse überrepräsentiert (80\%) ist, ist eine Analyse dieser Variablen verzerrt (Selection Bias). Im weiteren Verlauf des Berichts wird daher de Fokus auf die robusteren Variablen wie Geschlecht, Klasse und Alter gelegt.}
+    \end{itemize}
+    \item \textbf{Datentransformation:}
+    Die Variablen \textit{Sex, Survived, Embarked, Side} und \textit{Deck} wurden als Faktoren kodiert. Die Passagierklasse (\textit{Pclass}) wurde als \textbf{ordered factor} definiert umd die Rangfolge abzubilden.
+\end{itemize}
 
 \section{Ergebnisse}
 
-Plot 1: Absolute Häufigkeiten kategorieller Daten, und davon die relative Häufigkeiten der Überlebten
-- Diese Gruppen waren am meisten vertreten (dritte Preisklasse, Männer, die  meisten haben nicht überlebt)
+%Plot0% 
+\subsection{...1}
+%Grafik Plot 0%
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Plot0.pdf}
+    \caption{...2}
+\end{figure}
+
+Plot 0: Absolute Häufigkeiten kategorieller Daten, und davon die relative Häufigkeiten der Überlebten
+- Diese Gruppen waren am meisten vertreten (Demografie) (dritte Preisklasse, Männer, die  meisten haben nicht überlebt)
 - Diese Gruppen haben am ehesten überlebt (Frauen, Erste Preisklasse)
 - Beim Geschlecht war der Unterschied am größten
-   ->  weil Frauen vielleicht tendenziell mehr in der 
-       hohen Ticketpreiskategorie vertreten sind? -> Korrelation zwischen Geschlecht Frau und erste Klasse
-       Oder doch eher wegen dem Prinzip: Frauen und Kinder zuerst?
+   -> weil: Frauen und Kinder zuerst?
+   -> weil: Männer waren meist allein
 
-Plot 2: Histogramm Alter und Überleben (Kinder überleben eher, bestätigt das Prinzip)
+%Plot0% 
+\subsection{...1}
+%Grafik Plot 0%
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Plot1.pdf}
+    \caption{...2}
+\end{figure}
+
+Plot 1: Alter und Überleben (Kinder überleben eher, bestätigt das Prinzip, ALLERDINGS mit Vorsicht zu interpretieren, da die NAs mit dem Durchschnittsalteraufgefüllt wurden)
+
+%Plot2% 
+\subsection{...1}
+%Grafik Plot 2%
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Plot2.pdf}
+    \caption{...2}
+\end{figure}
+
 Plot 3: Histogramm Familiengröße und Überleben (Kleine Familien überleben eher, vielleicht weil sie nicht alle in ein boot passen -> passt auch zur these "frauen und kinder zuerst?")
+
+
+%Plot3% 
+\subsection{...1}
+%Grafik Plot 3%
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Plot3.pdf}
+    \caption{...2}
+\end{figure}
 
 \section{Fazit}
 

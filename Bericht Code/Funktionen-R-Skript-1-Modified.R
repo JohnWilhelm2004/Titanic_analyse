@@ -213,7 +213,7 @@ v.visualiasation <- function(dataset = titanic.data, var.vec){
   }
   
   rename.data <- c(
-    "Pclass" = "Passergierklasse",
+    "Pclass" = "Passagierklasse",
     "Sex" = "Geschlecht",
     "Survived" = "Überlebt"
   )
@@ -240,7 +240,7 @@ v.visualiasation <- function(dataset = titanic.data, var.vec){
     ) +
     
     #Wir fügen allgemeine Achsenbeschriftung hinzu
-    labs(title = "Absolute Häufigkeiten der Kategorialen Merkmale",
+    labs(title = "Absolute Häufigkeiten der kategorialen Merkmale",
          x = "Merkmale",
          y = "Absolute Häufigkeit")
 }

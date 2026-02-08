@@ -193,7 +193,7 @@ plot3 <- ggplot(plot.3.data, aes(x = Age, fill = Survived, color = Survived)) +
   labs(
     title = "Verteilung des Alters bei Überlebenden versus Verstorbenen",
     x = "Alter",
-    y = "Dichte (rel. Hauefigkeit)"
+    y = "Dichte"
   )
 
 ggsave("Plot3.pdf", plot = plot3, width = 10, height = 4.5, dpi = 300)

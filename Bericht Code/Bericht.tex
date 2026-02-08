@@ -90,12 +90,12 @@ Der Untergang der Titanic ist ein weltbekanntes Ereignis in der Geschichte der M
 
 \section{Daten und Methoden}
 \begin{itemize}
-    \item \textbf{Daten:} Zur Datenanalyse wurden der Datensatz titanic.csv und die Pakete "tidyverse" und "ggplot2" verwendet. Vor der Datenbereinigung wies die Variable \textit{Age} 177 NA-Werte (ca. 19,86 \%) auf, \textit{Embarked} besaß zwei leere Zellen (ca. 0,22 \%) und \textit{Cabin} hatte 687 leere Zellen, was einer Quote von ca. 77,10 \% entspricht.
+    \item \textbf{Daten:} Zur Datenanalyse wurden der Datensatz titanic.csv und die Pakete \glqq tidyverse\grqq{} und \glqq ggplot2\grqq{} verwendet. Vor der Datenbereinigung wies die Variable \textit{Age} 177 NA-Werte (ca. 19,86 \%) auf, \textit{Embarked} besaß zwei leere Zellen (ca. 0,22 \%) und \textit{Cabin} hatte 687 leere Zellen, was einer Quote von ca. 77,10 \% entspricht.
     \item \textbf{Methodik:}
     Leere Zeichenketten wurden als \texttt{NA} kodiert, und für die Analyse  nicht weiter relevante Variablen (wie \textit{PassengerID, Name, Ticket, Cabin}) wurden nach Merkmalsextraktion entfernt.
     \begin{itemize}
         \item \textbf{Age (Alter in Jahren beim Untergang):} Fehlende Werte wurden durch das arithmetische Mittel der jeweiligen Titelgruppe ersetzt, um die demografische Struktur beizubehalten und keinen Bias zu kreieren.
-        \item \textbf{Embarked (Zustiegshafen):} Zwei fehlende Einträge wurden durch den Modus "Southhampton" (S) ersetzt.
+        \item \textbf{Embarked (Zustiegshafen):} Zwei fehlende Einträge wurden durch den Modus \glqq Southhampton\grqq{} (S) ersetzt.
         \item \textbf{Cabin (Kabinennummer):} Aus der Kabinennummer wurden das \textbf{Deck} (\textit{Deck}) und die \textbf{Schiffsseite} (\textit{Side}) mittels Modulo-Operation extrahiert.
         \item \textit{Hinweis: Aufgrund der hohen NA-Quote der Variablen \textit{Deck} und \textit{Side} und da sie durch Passagiere der dritten Klasse überrepräsentiert (ca. 69,72 \%) ist, ist eine Analyse dieser Variablen verzerrt (Selection Bias). Im weiteren Verlauf des Berichts wird daher der Fokus auf die robusteren Variablen wie Geschlecht, Klasse und Alter gelegt.}
     \end{itemize}
